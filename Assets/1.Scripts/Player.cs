@@ -33,11 +33,16 @@ public class Player : MonoBehaviour
         if (isActive) Controls();
     }
 
+    void LateUpdate()
+    {
+        LookToMouse();
+    }
+
     void Controls()
     {
-        ApuntarRaton();
         if (Input.GetMouseButton(0)) Shoot();
-        rb.velocity = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")) * ship.stats.speedMovement;
+        rb.position += new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")) * ship.stats.speedMovement * Time.deltaTime;
+        rb.position = new Vector2(Mathf.Clamp(rb.position.x, -12, 12), Mathf.Clamp(rb.position.y, -7, 7));
     }
 
     void Shoot()
@@ -63,12 +68,10 @@ public class Player : MonoBehaviour
         return timeLastShoot + ship.stats.cooldownShoot < Time.time;
     }
 
-    void ApuntarRaton()
+    private void LookToMouse()
     {
-        float camDis = cam.transform.position.y - transform.position.y;
-        Vector3 mouse = cam.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, camDis));
-        float AngleRad = Mathf.Atan2(mouse.y - transform.position.y, mouse.x - transform.position.x);
-        float angle = (180 / Mathf.PI) * AngleRad;
-        rb.rotation = angle;
+        var dir = Input.mousePosition - cam.WorldToScreenPoint(transform.position);
+        var angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+        transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.AngleAxis(angle, transform.forward), Time.deltaTime * ship.stats.speedMovement);
     }
 }

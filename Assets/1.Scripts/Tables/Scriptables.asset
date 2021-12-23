@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 230a628a755d03a4eb8997e40e304776, type: 3}
+  m_Name: Scriptables
+  m_EditorClassIdentifier: 
+  playerShips:
+  - name: Hola
+    sprite: {fileID: 0}
+    bullet: {fileID: 5683050137816100352, guid: 7ab91c415888bdd408da73bfc3b68923,
+      type: 3}
+    stats:
+      speedMovement: 6
+      speedShoot: 18
+      cooldownShoot: 0.1
+    statsPerLevel:
+      speedMovement: 1
+      speedShoot: 1
+      cooldownShoot: 1
+  enemiesBasic: []
+  enemiesAdvanced: []
+  enemiesBosses: []

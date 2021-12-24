@@ -7,11 +7,13 @@ public class Player : MonoBehaviour
 {
     Camera cam;
     Rigidbody2D rb;
-    Ship ship;
+    [HideInInspector]
+    public Ship ship;
     bool isActive = false;
     float timeLastShoot = -2f;
     EZObjectPool bulletPool;
     int level = 1;
+    float xMaxPos, yMaxPos;
 
     public void Spawn(Ship ship)
     {
@@ -19,6 +21,8 @@ public class Player : MonoBehaviour
         isActive = true;
         this.ship = ship;
         bulletPool = EZObjectPool.CreateObjectPool(ship.bullet, "player bullets", 150, true, true, true);
+        xMaxPos = GameManager.Instance.xMaxPos;
+        yMaxPos = GameManager.Instance.yMaxPos;
         gameObject.SetActive(true);
     }
 
@@ -42,7 +46,7 @@ public class Player : MonoBehaviour
     {
         if (Input.GetMouseButton(0)) Shoot();
         rb.position += new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")) * ship.stats.speedMovement * Time.deltaTime;
-        rb.position = new Vector2(Mathf.Clamp(rb.position.x, -12, 12), Mathf.Clamp(rb.position.y, -7, 7));
+        rb.position = new Vector2(Mathf.Clamp(rb.position.x, -xMaxPos, xMaxPos), Mathf.Clamp(rb.position.y, -yMaxPos, yMaxPos));
     }
 
     void Shoot()
@@ -52,7 +56,6 @@ public class Player : MonoBehaviour
         if (bulletPool.TryGetNextObject(GetNextCannonPos(), transform.rotation, out GameObject go))
         {
             go.GetComponent<Rigidbody2D>().velocity = transform.right * ship.stats.speedShoot;
-            print(ship.stats.speedShoot);
         }
     }
 

@@ -18,13 +18,19 @@ MonoBehaviour:
     bullet: {fileID: 5683050137816100352, guid: 7ab91c415888bdd408da73bfc3b68923,
       type: 3}
     stats:
+      health: 100
+      bulletDamage: 1
       speedMovement: 6
       speedShoot: 18
       cooldownShoot: 0.1
     statsPerLevel:
+      health: 1
+      bulletDamage: 1
       speedMovement: 1
       speedShoot: 1
       cooldownShoot: 1
-  enemiesBasic: []
+  enemiesBasic:
+  - {fileID: 5657340741216574489, guid: 821e94337db4d7e4a9bb421724f7b2b2, type: 3}
+  - {fileID: 5657340741216574489, guid: e89604123f690ef4ca99b041ba3cd60c, type: 3}
   enemiesAdvanced: []
   enemiesBosses: []

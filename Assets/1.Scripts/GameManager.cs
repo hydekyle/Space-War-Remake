@@ -2,16 +2,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Cysharp.Threading.Tasks;
+using EZObjectPools;
+using System.Linq;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
     public Scriptables scriptables;
     public Transform playerT;
+    public BoxCollider2D boundaries;
     [HideInInspector]
     public float xMaxPos, yMaxPos;
     [HideInInspector]
     public Player player;
+    Dictionary<string, EZObjectPool> enemyPools = new Dictionary<string, EZObjectPool>();
+    List<string> enemies = new List<string>();
+    int enemyIterator = 0;
 
     void Awake()
     {
@@ -25,16 +31,39 @@ public class GameManager : MonoBehaviour
         player.Spawn(scriptables.playerShips[0]);
     }
 
+    void Update()
+    {
+        if (Input.GetMouseButtonDown(1)) SpawnNextEnemy();
+    }
+
+    void SpawnNextEnemy()
+    {
+        var nextEnemyName = enemies[enemyIterator++];
+        if (enemyIterator >= enemies.Count - 1) enemyIterator = 0;
+        enemyPools[nextEnemyName].TryGetNextObject(Vector3.zero, Quaternion.identity);
+    }
+
+    void PrewarmEnemies()
+    {
+        foreach (var enemyGO in scriptables.enemiesBasic)
+        {
+            var enemy = enemyGO.GetComponent<Enemy>();
+            enemyPools[enemy.enemyName] = EZObjectPool.CreateObjectPool(enemyGO, enemy.enemyName, 20, true, true, true);
+            for (var x = 0; x < enemy.frequency; x++) enemies.Add(enemy.enemyName);
+        }
+        enemies = Helpers.ShuffleList(enemies);
+    }
+
     void Initialize()
     {
         player = playerT.GetComponent<Player>();
         SetMapBoundaries();
+        PrewarmEnemies();
     }
 
     void SetMapBoundaries()
     {
-        var boundaries = transform.Find("Boundaries").GetComponent<BoxCollider2D>();
-        xMaxPos = boundaries.size.x / 2;
-        yMaxPos = boundaries.size.y / 2;
+        xMaxPos = boundaries.bounds.extents.x;
+        yMaxPos = boundaries.bounds.extents.y;
     }
 }

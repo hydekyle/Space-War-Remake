@@ -22,12 +22,21 @@ public struct Stats
 
 public class Enemy : MonoBehaviour
 {
+    [Range(1, 10)]
+    public int frequency;
+    public String enemyName;
     public SpriteRenderer spriteRenderer;
     public Stats stats;
+    Color myColor;
+
+    private void Awake()
+    {
+        myColor = spriteRenderer.color;
+    }
 
     public void LateUpdate()
     {
-        spriteRenderer.color = Color.Lerp(spriteRenderer.color, Color.white, Time.deltaTime * 10);
+        spriteRenderer.color = Color.Lerp(spriteRenderer.color, myColor, Time.deltaTime * 10);
     }
 
     public void ReceiveDamage(int damage)

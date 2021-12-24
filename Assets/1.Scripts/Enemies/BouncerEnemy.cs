@@ -17,7 +17,7 @@ public class BouncerEnemy : Enemy
     {
         xMaxPos = GameManager.Instance.xMaxPos;
         yMaxPos = GameManager.Instance.yMaxPos;
-        direction = new Vector3(Random.Range(-10, 10), Random.Range(-10, 10), 0);
+        direction = new Vector3(Random.Range(-10, 10), Random.Range(-10, 10), 0).normalized;
     }
 
     void Update()
@@ -29,6 +29,7 @@ public class BouncerEnemy : Enemy
     void Movement()
     {
         transform.position += direction * Time.deltaTime * stats.speedMovement;
+        transform.Rotate(Vector3.forward * stats.speedMovement * direction.x);
     }
 
     void BounceCheck()

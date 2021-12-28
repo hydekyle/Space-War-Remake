@@ -10,9 +10,9 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance;
     public Scriptables scriptables;
     public Transform playerT;
-    public BoxCollider2D boundaries;
+    public BoxCollider2D boundariesCollider;
     [HideInInspector]
-    public float xMaxPos, yMaxPos;
+    public Vector2 boundaries;
     [HideInInspector]
     public Player player;
     Dictionary<string, EZObjectPool> enemyPools = new Dictionary<string, EZObjectPool>();
@@ -48,7 +48,7 @@ public class GameManager : MonoBehaviour
         foreach (var enemyGO in scriptables.enemiesBasic)
         {
             var enemy = enemyGO.GetComponent<Enemy>();
-            enemyPools[enemy.enemyName] = EZObjectPool.CreateObjectPool(enemyGO, enemy.enemyName, 20, true, true, true);
+            enemyPools[enemy.enemyName] = EZObjectPool.CreateObjectPool(enemyGO, enemy.enemyName, enemy.frequency, false, true, true);
             for (var x = 0; x < enemy.frequency; x++) enemies.Add(enemy.enemyName);
         }
         enemies = Helpers.ShuffleList(enemies);
@@ -63,7 +63,6 @@ public class GameManager : MonoBehaviour
 
     void SetMapBoundaries()
     {
-        xMaxPos = boundaries.bounds.extents.x;
-        yMaxPos = boundaries.bounds.extents.y;
+        boundaries = new Vector2(boundariesCollider.bounds.extents.x, boundariesCollider.bounds.extents.y);
     }
 }

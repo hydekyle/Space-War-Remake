@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 5657340741216574493}
   m_Layer: 12
   m_Name: BouncerEnemy
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -111,7 +111,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32ea50a2fc737104a9c64223e9119923, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  frequency: 11
+  frequency: 10
   enemyName: Bouncer
   spriteRenderer: {fileID: 5657340741216574495}
   stats:
@@ -120,3 +120,4 @@ MonoBehaviour:
     speedMovement: 4
     speedShoot: 1
     cooldownShoot: 1
+  limitPos: {x: 0, y: 0}

@@ -13,7 +13,8 @@ public class Player : MonoBehaviour
     float timeLastShoot = -2f;
     EZObjectPool bulletPool;
     int level = 1;
-    float xMaxPos, yMaxPos;
+    public Vector2 limitPos;
+    public Material skyMaterial;
 
     public void Spawn(Ship ship)
     {
@@ -21,8 +22,7 @@ public class Player : MonoBehaviour
         isActive = true;
         this.ship = ship;
         bulletPool = EZObjectPool.CreateObjectPool(ship.bullet, "player bullets", 150, true, true, true);
-        xMaxPos = GameManager.Instance.xMaxPos;
-        yMaxPos = GameManager.Instance.yMaxPos;
+        limitPos = GameManager.Instance.boundaries;
         gameObject.SetActive(true);
     }
 
@@ -30,6 +30,7 @@ public class Player : MonoBehaviour
     {
         cam = Camera.main;
         rb = GetComponent<Rigidbody2D>();
+        skyMaterial.SetTextureOffset("_FrontTex", Vector2.zero);
     }
 
     void Update()
@@ -45,8 +46,14 @@ public class Player : MonoBehaviour
     void Controls()
     {
         if (Input.GetMouseButton(0)) Shoot();
-        rb.position += new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")) * ship.stats.speedMovement * Time.deltaTime;
-        rb.position = new Vector2(Mathf.Clamp(rb.position.x, -xMaxPos, xMaxPos), Mathf.Clamp(rb.position.y, -yMaxPos, yMaxPos));
+        Move(new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")));
+    }
+
+    void Move(Vector2 direction)
+    {
+        rb.position += direction * ship.stats.speedMovement * Time.deltaTime;
+        rb.position = new Vector2(Mathf.Clamp(rb.position.x, -limitPos.x, limitPos.x), Mathf.Clamp(rb.position.y, -limitPos.y, limitPos.y));
+        skyMaterial.SetTextureOffset("_FrontTex", rb.position / 100);
     }
 
     void Shoot()

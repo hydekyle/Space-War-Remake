@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BouncerEnemy : Enemy
 {
-    float xMaxPos, yMaxPos;
+    public Vector2 limitPos;
     Vector3 direction;
     float lastTimeBounced = -1f;
 
@@ -15,8 +15,7 @@ public class BouncerEnemy : Enemy
 
     void Initialize()
     {
-        xMaxPos = GameManager.Instance.xMaxPos;
-        yMaxPos = GameManager.Instance.yMaxPos;
+        limitPos = GameManager.Instance.boundaries;
         direction = new Vector3(Random.Range(-10, 10), Random.Range(-10, 10), 0).normalized;
     }
 
@@ -36,8 +35,8 @@ public class BouncerEnemy : Enemy
     {
         if (lastTimeBounced + 0.1f < Time.time)
         {
-            if (Mathf.Abs(transform.position.x) > xMaxPos) ReflectDirectionX();
-            if (Mathf.Abs(transform.position.y) > yMaxPos) ReflectDirectionY();
+            if (Mathf.Abs(transform.position.x) > limitPos.x) ReflectDirectionX();
+            if (Mathf.Abs(transform.position.y) > limitPos.y) ReflectDirectionY();
         }
     }
 

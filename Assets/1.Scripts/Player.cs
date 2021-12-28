@@ -22,7 +22,7 @@ public class Player : MonoBehaviour
         isActive = true;
         this.ship = ship;
         bulletPool = EZObjectPool.CreateObjectPool(ship.bullet, "player bullets", 150, true, true, true);
-        limitPos = GameManager.Instance.boundaries;
+        limitPos = GameManager.boundaries;
         gameObject.SetActive(true);
     }
 

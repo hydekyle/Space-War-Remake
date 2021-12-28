@@ -18,7 +18,7 @@ public class ComeBordes : Enemy
     void Initialize()
     {
         isReversed = Random.Range(0, 2) == 1 ? true : false;
-        limitPos = GameManager.Instance.boundaries;
+        limitPos = GameManager.boundaries;
         rotationSpeed = isReversed ? stats.speedMovement * 20 : stats.speedMovement * -20;
         targetPoints.Add(new Vector2(limitPos.x, limitPos.y));
         targetPoints.Add(new Vector2(-limitPos.x, limitPos.y));

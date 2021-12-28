@@ -15,7 +15,7 @@ public class BouncerEnemy : Enemy
 
     void Initialize()
     {
-        limitPos = GameManager.Instance.boundaries;
+        limitPos = GameManager.boundaries;
         direction = new Vector3(Random.Range(-10, 10), Random.Range(-10, 10), 0).normalized;
     }
 

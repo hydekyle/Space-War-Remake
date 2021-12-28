@@ -12,7 +12,7 @@ public class GameManager : MonoBehaviour
     public Transform playerT;
     public BoxCollider2D boundariesCollider;
     [HideInInspector]
-    public Vector2 boundaries;
+    public static Vector2 boundaries;
     [HideInInspector]
     public Player player;
     Dictionary<string, EZObjectPool> enemyPools = new Dictionary<string, EZObjectPool>();

@@ -17,7 +17,7 @@ public struct Ship
 public struct Stats
 {
     public int health, bulletDamage;
-    public float speedMovement, speedShoot, cooldownShoot;
+    public float movility, bulletSpeed, bulletCooldown;
 }
 
 public class Enemy : MonoBehaviour

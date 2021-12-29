@@ -8,27 +8,48 @@ using System.Linq;
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
-    public Scriptables scriptables;
+    public Scriptables _scriptables;
+    public static Scriptables tables
+    {
+        get { return GameManager.Instance._scriptables; }
+        set { GameManager.Instance._scriptables = value; }
+    }
     public Transform playerT;
     public BoxCollider2D boundariesCollider;
     [HideInInspector]
     public static Vector2 boundaries;
     [HideInInspector]
     public Player player;
+    public AudioController musicController;
+    public static AudioSource audioSourceSFX;
     Dictionary<string, EZObjectPool> enemyPools = new Dictionary<string, EZObjectPool>();
     List<string> enemies = new List<string>();
     int enemyIterator = 0;
 
     void Awake()
     {
-        Initialize();
+        if (Instance != null) Destroy(this);
         Instance = this;
+        Initialize();
     }
 
-    async void Start()
+    public static Scriptables Tables()
     {
-        await UniTask.WaitUntil(() => Input.GetMouseButtonDown(0));
-        player.Spawn(scriptables.playerShips[0]);
+        return GameManager.Instance._scriptables;
+    }
+
+    void Initialize()
+    {
+        player = playerT.GetComponent<Player>();
+        audioSourceSFX = GetComponent<AudioSource>();
+        SetMapBoundaries();
+        PrewarmEnemies();
+    }
+
+    void Start()
+    {
+        //await UniTask.WaitUntil(() => Input.GetMouseButtonDown(0));
+        player.Spawn(_scriptables.playerShips[0]);
     }
 
     void Update()
@@ -45,20 +66,13 @@ public class GameManager : MonoBehaviour
 
     void PrewarmEnemies()
     {
-        foreach (var enemyGO in scriptables.enemiesBasic)
+        foreach (var enemyGO in _scriptables.enemiesBasic)
         {
             var enemy = enemyGO.GetComponent<Enemy>();
             enemyPools[enemy.enemyName] = EZObjectPool.CreateObjectPool(enemyGO, enemy.enemyName, enemy.frequency, false, true, true);
             for (var x = 0; x < enemy.frequency; x++) enemies.Add(enemy.enemyName);
         }
         enemies = Helpers.ShuffleList(enemies);
-    }
-
-    void Initialize()
-    {
-        player = playerT.GetComponent<Player>();
-        SetMapBoundaries();
-        PrewarmEnemies();
     }
 
     void SetMapBoundaries()

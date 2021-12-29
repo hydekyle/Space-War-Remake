@@ -38,6 +38,7 @@ public class UnshObjectBehaviour : MonoBehaviour
     public bool RotateZ;
 
     //Stores the audio controller
+    [HideInInspector]
     public AudioController audioController;
 
 
@@ -62,9 +63,9 @@ public class UnshObjectBehaviour : MonoBehaviour
     //used for Gizmos
     Vector3 OriginalBounds;
 
-    // Start is called before the first frame update
     void Start()
     {
+        audioController = audioController ?? GameManager.Instance.musicController;
         startScale = transform.localScale;      //Vector3 that will store the original scale
         OriginalBounds = transform.lossyScale;  //Gets the original bounds of the mesh for gizmos in play mode
 
@@ -90,13 +91,15 @@ public class UnshObjectBehaviour : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (audioController != null) {
+        if (audioController != null)
+        {
             //If the aplication is playing & If an audio controller is attached & 
-            if (audioController.audioBandBuffer[bandFrequency] >= threshold) {
+            if (audioController.audioBandBuffer[bandFrequency] >= threshold)
+            {
                 //When the value exceeds the threshold
                 changeFactor = audioController.audioBandBuffer[bandFrequency];
             }
-            else if(changeFactor > 0)
+            else if (changeFactor > 0)
             {
                 //When the value exceeds the threshold
                 changeFactor = 0;
@@ -111,7 +114,7 @@ public class UnshObjectBehaviour : MonoBehaviour
     {//Function that draws in the editor how big the game object will get when using the Scale Modifier     
         try
         {
-            if(!Application.isPlaying)
+            if (!Application.isPlaying)
                 OriginalBounds = transform.lossyScale;  //Gets the original bounds of the mesh for gizmos in play mode
 
             //Gets the game object mesh
@@ -124,7 +127,7 @@ public class UnshObjectBehaviour : MonoBehaviour
             sZ = Z ? 1 : 0;
 
             //Function thats translates local scale to lossy
-            Vector3 localToLossy =  R3Vector3(transform.localScale, transform.lossyScale, scaleMultiplier);//Rule of three for a vector 3 
+            Vector3 localToLossy = R3Vector3(transform.localScale, transform.lossyScale, scaleMultiplier);//Rule of three for a vector 3 
 
             //Gets the scale for eahc axis 
             Vector3 desiredSize;
@@ -165,9 +168,9 @@ public class UnshObjectBehaviour : MonoBehaviour
     private void transformObject()
     {
         //Transform the scale of the object on the selected axis (X,Y,Z)
-        if(audioController.audioBandBuffer[bandFrequency] >0)
+        if (audioController.audioBandBuffer[bandFrequency] > 0)
             transform.localScale = new Vector3((changeFactor * scaleMultiplier * sX) + startScale.x, (changeFactor * scaleMultiplier * sY) + startScale.y, (changeFactor * scaleMultiplier * sZ) + startScale.z);
-        
+
     }
 
     private void rotationControl()

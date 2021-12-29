@@ -12,6 +12,8 @@ GameObject:
   - component: {fileID: 5657340741216574495}
   - component: {fileID: 5657340741216574488}
   - component: {fileID: 5657340741216574493}
+  - component: {fileID: 7521087757041421940}
+  - component: {fileID: 8853971509459750509}
   m_Layer: 12
   m_Name: BouncerEnemy 1
   m_TagString: Enemy
@@ -115,9 +117,61 @@ MonoBehaviour:
   enemyName: Bouncer Alt
   spriteRenderer: {fileID: 5657340741216574495}
   stats:
-    health: 12
+    health: 24
     bulletDamage: 1
-    speedMovement: 6
-    speedShoot: 1
-    cooldownShoot: 1
+    movility: 2
+    bulletSpeed: 2
+    bulletCooldown: 2
   limitPos: {x: 0, y: 0}
+--- !u!114 &7521087757041421940
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5657340741216574489}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b35e9441a146c049bfe0d44d0e75d5e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bandFrequency: 0
+  threshold: 0
+  X: 1
+  Y: 1
+  Z: 0
+  scaleMultiplier: 3
+  rotate: 0
+  speedMultiplier: 0
+  RotateX: 0
+  RotateY: 0
+  RotateZ: 0
+  audioController: {fileID: 0}
+  toolbarTab: 0
+  currentTab: Audio
+--- !u!114 &8853971509459750509
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5657340741216574489}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b35e9441a146c049bfe0d44d0e75d5e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bandFrequency: 0
+  threshold: 0
+  X: 0
+  Y: 0
+  Z: 0
+  scaleMultiplier: 0
+  rotate: 0
+  speedMultiplier: 0
+  RotateX: 0
+  RotateY: 0
+  RotateZ: 0
+  audioController: {fileID: 0}
+  toolbarTab: 0
+  currentTab: Audio

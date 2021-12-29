@@ -48,21 +48,19 @@ public class AudioController : MonoBehaviour
 
     AudioSource audioSource;                      //Object that stores the audio
 
-    float[] samples    = new float[512];   //Array that will store the audio spectrum registers.
+    float[] samples = new float[512];   //Array that will store the audio spectrum registers.
 
-    float[] freqBand   = new float[8]; //Array that stores the audio bands without smoothing
+    float[] freqBand = new float[8]; //Array that stores the audio bands without smoothing
 
     public float[] bandBuffer = new float[8];//Array that stores the smoothed audio bands
 
     public float[] audioBandBuffer = new float[8]; //Array that stores the normalized values
-    
+
     float[] freqBandMax = new float[8]; //Array that stores the current maximum value obtained. 
 
     [HideInInspector]
     public float[] bufferDecrease = new float[8];
 
-    
-    // Start is called before the first frame update
     void Start()
     {
         audioSource = GetComponent<AudioSource>();
@@ -120,14 +118,14 @@ public class AudioController : MonoBehaviour
 
     void BandBuffer()
     {
-        for(int i = 0; i < 8; ++i)
+        for (int i = 0; i < 8; ++i)
         {
             if (freqBand[i] > bandBuffer[i])
             {
                 bandBuffer[i] = freqBand[i];
                 bufferDecrease[i] = 0.005f;
             }
-            if (freqBand[i]< bandBuffer[i])
+            if (freqBand[i] < bandBuffer[i])
             {
                 bandBuffer[i] -= bufferDecrease[i];
                 //1.2

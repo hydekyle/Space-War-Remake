@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 9030827098259619955}
   - component: {fileID: 9030827098259619964}
   - component: {fileID: 5170099609559532407}
+  - component: {fileID: -5848434969223739316}
   m_Layer: 12
   m_Name: Come Bordes
   m_TagString: Enemy
@@ -101,9 +102,9 @@ MonoBehaviour:
   stats:
     health: 10
     bulletDamage: 1
-    speedMovement: 10
-    speedShoot: 1
-    cooldownShoot: 1
+    movility: 2
+    bulletSpeed: 1
+    bulletCooldown: 1
   isReversed: 0
 --- !u!58 &5170099609559532407
 CircleCollider2D:
@@ -121,3 +122,29 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.32000002
+--- !u!114 &-5848434969223739316
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9030827098259619965}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b35e9441a146c049bfe0d44d0e75d5e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bandFrequency: 6
+  threshold: 0
+  X: 1
+  Y: 1
+  Z: 0
+  scaleMultiplier: 3
+  rotate: 0
+  speedMultiplier: 0
+  RotateX: 0
+  RotateY: 0
+  RotateZ: 0
+  audioController: {fileID: 0}
+  toolbarTab: 0
+  currentTab: Audio

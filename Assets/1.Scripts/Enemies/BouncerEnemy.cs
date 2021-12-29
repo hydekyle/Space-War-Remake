@@ -27,8 +27,8 @@ public class BouncerEnemy : Enemy
 
     void Movement()
     {
-        transform.position += direction * Time.deltaTime * stats.speedMovement;
-        transform.Rotate(Vector3.forward * stats.speedMovement * direction.x);
+        transform.position += direction * Time.deltaTime * stats.movility;
+        transform.Rotate(Vector3.forward * stats.movility * direction.x);
     }
 
     void BounceCheck()

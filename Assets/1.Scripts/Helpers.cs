@@ -15,4 +15,19 @@ public class Helpers
         }
         return _list;
     }
+
+    public static Vector2 SizeAttractorClosed()
+    {
+        return Vector2.one * 2.5f;
+    }
+
+    public static Vector2 SizeAttractorOpened(Ship ship)
+    {
+        return Vector2.one * (3 + ship.stats.movility);
+    }
+
+    public static void PlaySFX(AudioClip audioClip)
+    {
+        GameManager.audioSourceSFX.PlayOneShot(audioClip);
+    }
 }

@@ -20,17 +20,18 @@ MonoBehaviour:
     stats:
       health: 100
       bulletDamage: 1
-      speedMovement: 6
-      speedShoot: 18
-      cooldownShoot: 0.1
+      movility: 8
+      bulletSpeed: 10
+      bulletCooldown: 0.2
     statsPerLevel:
       health: 1
       bulletDamage: 1
-      speedMovement: 1
-      speedShoot: 1
-      cooldownShoot: 1
+      movility: 1
+      bulletSpeed: 1
+      bulletCooldown: 1
   enemiesBasic:
   - {fileID: 5657340741216574489, guid: 821e94337db4d7e4a9bb421724f7b2b2, type: 3}
   - {fileID: 5657340741216574489, guid: e89604123f690ef4ca99b041ba3cd60c, type: 3}
   enemiesAdvanced: []
   enemiesBosses: []
+  coinGrab: {fileID: 8300000, guid: 53720b59b8baffa41bc5668a1f19e45f, type: 3}

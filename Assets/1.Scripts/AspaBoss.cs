@@ -12,6 +12,7 @@ public class AspaBoss : MonoBehaviour
     public float rotationSpeed = 30f;
     public Animator animator;
     public CircleCollider2D weakPoint;
+    public GameObject eyeGO;
 
     private void Start()
     {
@@ -33,6 +34,7 @@ public class AspaBoss : MonoBehaviour
         var animTimeSeconds = (double)animator.GetCurrentAnimatorStateInfo(0).length;
         await UniTask.Delay(System.TimeSpan.FromSeconds(animTimeSeconds));
         weakPoint.enabled = true;
+        eyeGO.SetActive(true);
     }
 
     private void Update()
@@ -60,6 +62,7 @@ public class AspaBoss : MonoBehaviour
     void Die()
     {
         weakPoint.enabled = false;
+        eyeGO.SetActive(false);
         gameObject.SetActive(false);
     }
 

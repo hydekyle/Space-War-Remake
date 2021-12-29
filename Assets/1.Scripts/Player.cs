@@ -13,8 +13,9 @@ public class Player : MonoBehaviour
     float timeLastShoot = -2f;
     EZObjectPool bulletPool;
     int level = 1;
-    public Vector2 limitPos;
+    Vector2 limitPos;
     public Material skyMaterial;
+    public BoxCollider2D boxColliderAttractor;
 
     public void Spawn(Ship ship)
     {
@@ -23,6 +24,7 @@ public class Player : MonoBehaviour
         this.ship = ship;
         bulletPool = EZObjectPool.CreateObjectPool(ship.bullet, "player bullets", 150, true, true, true);
         limitPos = GameManager.boundaries;
+        boxColliderAttractor.size = Helpers.SizeAttractorClosed();
         gameObject.SetActive(true);
     }
 
@@ -46,12 +48,14 @@ public class Player : MonoBehaviour
     void Controls()
     {
         if (Input.GetMouseButton(0)) Shoot();
+        if (Input.GetMouseButtonDown(0)) boxColliderAttractor.size = Helpers.SizeAttractorClosed();
+        if (Input.GetMouseButtonUp(0)) boxColliderAttractor.size = Helpers.SizeAttractorOpened(ship);
         Move(new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")));
     }
 
     void Move(Vector2 direction)
     {
-        rb.position += direction * ship.stats.speedMovement * Time.deltaTime;
+        rb.position += direction * ship.stats.movility * Time.deltaTime;
         rb.position = new Vector2(Mathf.Clamp(rb.position.x, -limitPos.x, limitPos.x), Mathf.Clamp(rb.position.y, -limitPos.y, limitPos.y));
         skyMaterial.SetTextureOffset("_FrontTex", rb.position / 100);
     }
@@ -62,7 +66,7 @@ public class Player : MonoBehaviour
         timeLastShoot = Time.time;
         if (bulletPool.TryGetNextObject(GetNextCannonPos(), transform.rotation, out GameObject go))
         {
-            go.GetComponent<Rigidbody2D>().velocity = transform.right * ship.stats.speedShoot;
+            go.GetComponent<Rigidbody2D>().velocity = transform.right * ship.stats.bulletSpeed;
         }
     }
 
@@ -75,13 +79,24 @@ public class Player : MonoBehaviour
 
     bool IsShootAvailable()
     {
-        return timeLastShoot + ship.stats.cooldownShoot < Time.time;
+        return timeLastShoot + ship.stats.bulletCooldown < Time.time;
     }
 
-    private void LookToMouse()
+    void LookToMouse()
     {
         var dir = Input.mousePosition - cam.WorldToScreenPoint(transform.position);
         var angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
-        transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.AngleAxis(angle, transform.forward), Time.deltaTime * ship.stats.speedMovement);
+        transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.AngleAxis(angle, transform.forward), Time.deltaTime * ship.stats.movility);
+    }
+
+    void GrabCoin(GameObject coin)
+    {
+        coin.SetActive(false);
+        Helpers.PlaySFX(GameManager.tables.coinGrab);
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.CompareTag("Coin")) GrabCoin(other.gameObject);
     }
 }

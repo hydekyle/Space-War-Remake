@@ -30,8 +30,9 @@ public class ComeBordes : Enemy
 
     void Update()
     {
-        Move();
         Rotate();
+        if (!isActive) return;
+        Move();
     }
 
     void Move()

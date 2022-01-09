@@ -3,10 +3,9 @@ using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 
-public class AspaBoss : MonoBehaviour
+public class AspaBoss : Enemy
 {
     public Transform aspa1, aspa2;
-    public Stats stats;
     public SpriteRenderer aspa1Renderer, aspa2Renderer;
     Color aspa1Color, aspa2Color;
     public float rotationSpeed = 30f;
@@ -37,15 +36,21 @@ public class AspaBoss : MonoBehaviour
         eyeGO.SetActive(true);
     }
 
-    private void Update()
+    void Update()
     {
         AspasAnimation();
+        if (!isActive) return;
+        Move();
+    }
+
+    void Move()
+    {
+        aspa1.transform.localPosition = Vector3.MoveTowards(aspa1.transform.localPosition, Vector3.zero, Time.deltaTime * rotationSpeed / 3);
+        aspa2.transform.localPosition = Vector3.MoveTowards(aspa2.transform.localPosition, Vector3.zero, Time.deltaTime * rotationSpeed / 3);
     }
 
     void AspasAnimation()
     {
-        aspa1.transform.localPosition = Vector3.MoveTowards(aspa1.transform.localPosition, Vector3.zero, Time.deltaTime * rotationSpeed / 3);
-        aspa2.transform.localPosition = Vector3.MoveTowards(aspa2.transform.localPosition, Vector3.zero, Time.deltaTime * rotationSpeed / 3);
         aspa1.Rotate(Vector3.forward * rotationSpeed * Time.deltaTime);
         aspa2.Rotate(Vector3.forward * -rotationSpeed * Time.deltaTime);
         aspa1Renderer.color = Color.Lerp(aspa1Renderer.color, aspa1Color, Time.deltaTime * 10);
@@ -59,7 +64,7 @@ public class AspaBoss : MonoBehaviour
         if (stats.health <= 0) Die();
     }
 
-    void Die()
+    new void Die()
     {
         weakPoint.enabled = false;
         eyeGO.SetActive(false);

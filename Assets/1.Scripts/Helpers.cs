@@ -16,6 +16,12 @@ public class Helpers
         return _list;
     }
 
+    public static Scriptables tables
+    {
+        get { return GameManager.Instance.scriptables; }
+        set { GameManager.Instance.scriptables = value; }
+    }
+
     public static Vector2 SizeAttractorClosed()
     {
         return Vector2.one * 2.5f;
@@ -29,5 +35,11 @@ public class Helpers
     public static void PlaySFX(AudioClip audioClip)
     {
         GameManager.audioSourceSFX.PlayOneShot(audioClip);
+    }
+
+    /// <param name="volume">Scale from 0f to 1f</param>
+    public static void PlaySFX(AudioClip audioClip, float volume)
+    {
+        GameManager.audioSourceSFX.PlayOneShot(audioClip, volume);
     }
 }

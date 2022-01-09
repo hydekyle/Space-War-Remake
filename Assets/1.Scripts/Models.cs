@@ -27,10 +27,12 @@ public class Enemy : MonoBehaviour
     public String enemyName;
     public SpriteRenderer spriteRenderer;
     public Stats stats;
+    public bool isActive = true;
     Color myColor;
 
     private void Awake()
     {
+        spriteRenderer = GetComponent<SpriteRenderer>();
         myColor = spriteRenderer.color;
     }
 
@@ -46,7 +48,12 @@ public class Enemy : MonoBehaviour
         else spriteRenderer.color = Color.red;
     }
 
-    void Die()
+    public void Sleep()
+    {
+        isActive = false;
+    }
+
+    public void Die()
     {
         gameObject.SetActive(false);
     }

@@ -13,14 +13,14 @@ MonoBehaviour:
   m_Name: Scriptables
   m_EditorClassIdentifier: 
   playerShips:
-  - name: Hola
+  - name: Basic Ship
     sprite: {fileID: 0}
     bullet: {fileID: 5683050137816100352, guid: 7ab91c415888bdd408da73bfc3b68923,
       type: 3}
     stats:
       health: 100
       bulletDamage: 1
-      movility: 8
+      movility: 1
       bulletSpeed: 10
       bulletCooldown: 0.2
     statsPerLevel:
@@ -34,4 +34,7 @@ MonoBehaviour:
   - {fileID: 5657340741216574489, guid: e89604123f690ef4ca99b041ba3cd60c, type: 3}
   enemiesAdvanced: []
   enemiesBosses: []
+  startGame: {fileID: 8300000, guid: e566cb50c0e60e341935945443acdad1, type: 3}
   coinGrab: {fileID: 8300000, guid: 53720b59b8baffa41bc5668a1f19e45f, type: 3}
+  energyGrab: {fileID: 0}
+  shot1: {fileID: 8300000, guid: 9abb1df8671534e4f8833af640bdc334, type: 3}

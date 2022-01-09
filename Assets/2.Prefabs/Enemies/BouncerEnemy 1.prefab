@@ -119,7 +119,7 @@ MonoBehaviour:
   stats:
     health: 24
     bulletDamage: 1
-    movility: 2
+    movility: 8
     bulletSpeed: 2
     bulletCooldown: 2
   limitPos: {x: 0, y: 0}

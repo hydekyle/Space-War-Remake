@@ -102,7 +102,7 @@ MonoBehaviour:
   stats:
     health: 10
     bulletDamage: 1
-    movility: 2
+    movility: 12
     bulletSpeed: 1
     bulletCooldown: 1
   isReversed: 0

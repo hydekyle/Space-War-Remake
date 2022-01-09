@@ -149,7 +149,7 @@ public class UnshObjectBehaviour : MonoBehaviour
         }
         catch
         {
-            Debug.LogWarning("Could not get mesh");
+            //Debug.LogWarning("Could not get mesh");
         }
     }
 

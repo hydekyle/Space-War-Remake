@@ -32,6 +32,36 @@ public class Player : MonoBehaviour
         energy.OnChanged += OnEnergyChanged;
     }
 
+    void FixedUpdate()
+    {
+        Move(new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")));
+        LookToMouse();
+    }
+
+    void Update()
+    {
+        if (isActive) Controls();
+    }
+
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.CompareTag("Energy")) GrabEnergy(other.gameObject);
+        else if (other.CompareTag("Enemy")) Die();
+        else if (other.CompareTag("PowerUp")) GrabPowerUp(other.gameObject);
+    }
+
+    void OnHealthChanged()
+    {
+        GameManager.Instance.healthTextUI.text = health.ToString();
+        if (health.Value <= 0) Die();
+    }
+
+    void OnEnergyChanged()
+    {
+        GameManager.Instance.energyTextUI.text = energy.ToString();
+        if (EnergyAmountRequiredToLevelUp() <= energy.Value) LevelUp();
+    }
+
     public void Spawn(Ship ship)
     {
         transform.position = Vector2.zero;
@@ -44,17 +74,6 @@ public class Player : MonoBehaviour
         health.Value = ship.stats.health;
         gameObject.SetActive(true);
         Helpers.PlaySFX(Helpers.tables.startGame);
-    }
-
-    void FixedUpdate()
-    {
-        Move(new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")));
-        LookToMouse();
-    }
-
-    void Update()
-    {
-        if (isActive) Controls();
     }
 
     void Controls()
@@ -179,25 +198,6 @@ public class Player : MonoBehaviour
         GameManager.Instance.GameOver();
         isActive = false;
         gameObject.SetActive(false);
-    }
-
-    void OnHealthChanged()
-    {
-        GameManager.Instance.healthTextUI.text = health.ToString();
-        if (health.Value <= 0) Die();
-    }
-
-    void OnEnergyChanged()
-    {
-        GameManager.Instance.energyTextUI.text = energy.ToString();
-        if (EnergyAmountRequiredToLevelUp() <= energy.Value) LevelUp();
-    }
-
-    void OnTriggerEnter2D(Collider2D other)
-    {
-        if (other.CompareTag("Energy")) GrabEnergy(other.gameObject);
-        else if (other.CompareTag("Enemy")) Die();
-        else if (other.CompareTag("PowerUp")) GrabPowerUp(other.gameObject);
     }
 
 }

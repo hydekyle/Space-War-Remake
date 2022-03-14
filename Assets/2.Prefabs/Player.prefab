@@ -428,7 +428,7 @@ GameObject:
   - component: {fileID: 4574713025455700731}
   - component: {fileID: 4574713025455700735}
   m_Layer: 11
-  m_Name: Player 1
+  m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -514,6 +514,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 546c3a5de7ce80b47a0ce18107a4fba6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  skyMaterial: {fileID: 2100000, guid: 8435c83b51f1533428d88e5ac84fc69c, type: 2}
+  boxColliderAttractor: {fileID: 0}
   ship:
     name: 
     sprite: {fileID: 0}
@@ -530,8 +532,7 @@ MonoBehaviour:
       movility: 0
       bulletSpeed: 0
       bulletCooldown: 0
-  skyMaterial: {fileID: 2100000, guid: 8435c83b51f1533428d88e5ac84fc69c, type: 2}
-  boxColliderAttractor: {fileID: 0}
+  isGodMode: 1
 --- !u!50 &4574713025455700731
 Rigidbody2D:
   serializedVersion: 4

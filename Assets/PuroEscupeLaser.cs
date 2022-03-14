@@ -40,7 +40,6 @@ public class PuroEscupeLaser : Enemy
 
     async void LaserActivation(int laserIndex)
     {
-        print("toca " + laserIndex);
         lasers[laserIndex].SetActive(false); // Easy restart animation
         await UniTask.NextFrame();
         lasers[laserIndex].SetActive(true);

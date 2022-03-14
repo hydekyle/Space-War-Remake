@@ -16,8 +16,7 @@ public struct Ship
 [Serializable]
 public struct Stats
 {
-    public int health, bulletDamage;
-    public float movility, bulletSpeed, bulletCooldown;
+    public int health, bulletDamage, attackSpeed, bulletSpeed, movility;
 }
 
 public class Enemy : MonoBehaviour

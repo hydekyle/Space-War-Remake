@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 230a628a755d03a4eb8997e40e304776, type: 3}
-  m_Name: Scriptables
+  m_Name: GAMEDATA
   m_EditorClassIdentifier: 
   playerShips:
   - name: Basic Ship
@@ -20,15 +20,15 @@ MonoBehaviour:
     stats:
       health: 100
       bulletDamage: 1
-      movility: 1
-      bulletSpeed: 10
-      bulletCooldown: 0.2
+      attackSpeed: 1
+      bulletSpeed: 1
+      movility: 4
     statsPerLevel:
       health: 1
       bulletDamage: 1
-      movility: 1
-      bulletSpeed: 1
-      bulletCooldown: 1
+      attackSpeed: 1
+      bulletSpeed: 0
+      movility: 0
   enemiesBasic:
   - {fileID: 5657340741216574489, guid: 821e94337db4d7e4a9bb421724f7b2b2, type: 3}
   - {fileID: 5657340741216574489, guid: e89604123f690ef4ca99b041ba3cd60c, type: 3}

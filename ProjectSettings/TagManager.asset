@@ -9,6 +9,7 @@ TagManager:
   - Coin
   - Energy
   - LaserEnemy
+  - PowerUp
   layers:
   - Default
   - TransparentFX
@@ -29,7 +30,7 @@ TagManager:
   - Coin
   - Energy
   - LaserEnemy
-  - 
+  - PowerUp
   - 
   - 
   - 

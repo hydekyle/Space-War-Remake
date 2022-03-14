@@ -18,8 +18,19 @@ public class Player : MonoBehaviour
     Camera cam;
     Rigidbody2D rb;
     Vector2 limitPos;
+    public HealthObs health = new HealthObs();
+    public EnergyObs energy = new EnergyObs();
     int level = 1;
-    int energy = 0, coins = 0;
+    int coins = 0;
+
+    void Awake()
+    {
+        cam = Camera.main;
+        rb = GetComponent<Rigidbody2D>();
+        skyMaterial.SetTextureOffset("_FrontTex", Vector2.zero);
+        health.OnChanged += OnHealthChanged;
+        energy.OnChanged += OnEnergyChanged;
+    }
 
     public void Spawn(Ship ship)
     {
@@ -30,15 +41,9 @@ public class Player : MonoBehaviour
         limitPos = GameManager.boundaries;
         boxColliderAttractor.size = Helpers.SizeAttractorClosed();
         transform.Find("CoinAttractor").SetParent(Camera.main.transform);
+        health.Value = ship.stats.health;
         gameObject.SetActive(true);
         Helpers.PlaySFX(Helpers.tables.startGame);
-    }
-
-    void Awake()
-    {
-        cam = Camera.main;
-        rb = GetComponent<Rigidbody2D>();
-        skyMaterial.SetTextureOffset("_FrontTex", Vector2.zero);
     }
 
     void FixedUpdate()
@@ -71,18 +76,23 @@ public class Player : MonoBehaviour
     {
         if (!IsShootAvailable()) return;
         timeLastShoot = Time.time;
-        if (bulletPool.TryGetNextObject(GetNextShootPosition(), transform.rotation, out GameObject go))
+        if (bulletPool.TryGetNextObject(NextShootPosition(), transform.rotation, out GameObject go))
         {
             go.GetComponent<Rigidbody2D>().velocity = transform.right * ship.stats.bulletSpeed * 5;
             Helpers.PlaySFX(Helpers.tables.shot1, 0.1f);
         }
     }
 
-    Vector3 GetNextShootPosition()
+    Vector3 NextShootPosition()
     {
         var cannonsT = transform.Find("Cannons");
         var count = cannonsT.childCount;
         return transform.GetChild(Random.Range(0, count)).position;
+    }
+
+    int EnergyAmountRequiredToLevelUp()
+    {
+        return 100 * level;
     }
 
     bool IsShootAvailable()
@@ -92,7 +102,7 @@ public class Player : MonoBehaviour
 
     float BulletCooldown()
     {
-        return 0.2f - ship.stats.attackSpeed * 0.02f;
+        return 0.25f - ship.stats.attackSpeed * 0.01f;
     }
 
     void LookToMouse()
@@ -104,8 +114,16 @@ public class Player : MonoBehaviour
 
     void LevelUp()
     {
-        AddStats(new Stats { attackSpeed = 1, bulletDamage = 1, bulletSpeed = 1, health = 1, movility = 1 });
-        energy = 0;
+        AddStats(new Stats
+        {
+            attackSpeed = ship.statsPerLevel.attackSpeed,
+            bulletDamage = ship.statsPerLevel.bulletDamage,
+            bulletSpeed = ship.statsPerLevel.bulletSpeed,
+            health = ship.statsPerLevel.health,
+            movility = ship.statsPerLevel.movility
+        });
+        energy.Value = 0;
+        health.Value = ship.stats.health + ship.statsPerLevel.health * level;
         level++;
         Helpers.PlaySFX(Helpers.tables.startGame);
     }
@@ -145,17 +163,14 @@ public class Player : MonoBehaviour
     void GrabEnergy(GameObject energyGO)
     {
         var amount = int.Parse(energyGO.gameObject.name.Split(' ')[1]);
-        print(amount);
-        energy += amount;
+        energy.Value += amount;
         energyGO.SetActive(false);
         Helpers.PlaySFX(Helpers.tables.energyGrab);
-        if (100 <= energy) LevelUp();
     }
 
     void GetDamage(int damage)
     {
-        ship.stats.health -= damage;
-        if (ship.stats.health <= 0) Die();
+        health.Value -= damage;
     }
 
     void Die()
@@ -164,6 +179,18 @@ public class Player : MonoBehaviour
         GameManager.Instance.GameOver();
         isActive = false;
         gameObject.SetActive(false);
+    }
+
+    void OnHealthChanged()
+    {
+        GameManager.Instance.healthTextUI.text = health.ToString();
+        if (health.Value <= 0) Die();
+    }
+
+    void OnEnergyChanged()
+    {
+        GameManager.Instance.energyTextUI.text = energy.ToString();
+        if (EnergyAmountRequiredToLevelUp() <= energy.Value) LevelUp();
     }
 
     void OnTriggerEnter2D(Collider2D other)

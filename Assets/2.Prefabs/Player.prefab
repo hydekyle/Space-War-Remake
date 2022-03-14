@@ -523,16 +523,20 @@ MonoBehaviour:
     stats:
       health: 0
       bulletDamage: 0
-      movility: 0
+      attackSpeed: 0
       bulletSpeed: 0
-      bulletCooldown: 0
+      movility: 0
     statsPerLevel:
       health: 0
       bulletDamage: 0
-      movility: 0
+      attackSpeed: 0
       bulletSpeed: 0
-      bulletCooldown: 0
-  isGodMode: 1
+      movility: 0
+  isGodMode: 0
+  health:
+    value: 0
+  energy:
+    value: 0
 --- !u!50 &4574713025455700731
 Rigidbody2D:
   serializedVersion: 4

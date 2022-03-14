@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 using Cysharp.Threading.Tasks;
 using EZObjectPools;
 using System.Linq;
+using TMPro;
 
 public class GameManager : MonoBehaviour
 {
@@ -22,6 +23,7 @@ public class GameManager : MonoBehaviour
     List<string> enemiesList = new List<string>();
     int enemyIterator = 0;
     public LayerMask enemyLayerMask;
+    public TextMeshProUGUI healthTextUI, energyTextUI;
 
     void Awake()
     {

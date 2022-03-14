@@ -3,6 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using Cysharp.Threading.Tasks;
+using UnityObservables;
+
+[System.Serializable]
+public class HealthObs : Observable<int> { };
+
+[System.Serializable]
+public class EnergyObs : Observable<int> { };
 
 [Serializable]
 public struct Ship
@@ -31,13 +38,21 @@ public class Enemy : MonoBehaviour
 
     private void Awake()
     {
-        spriteRenderer = GetComponent<SpriteRenderer>();
-        myColor = spriteRenderer.color;
+        try
+        {
+            spriteRenderer = GetComponent<SpriteRenderer>();
+            myColor = spriteRenderer.color;
+        }
+        catch { }
     }
 
     public void LateUpdate()
     {
-        spriteRenderer.color = Color.Lerp(spriteRenderer.color, myColor, Time.deltaTime * 10);
+        try
+        {
+            spriteRenderer.color = Color.Lerp(spriteRenderer.color, myColor, Time.deltaTime * 10);
+        }
+        catch { }
     }
 
     public void ReceiveDamage(int damage)

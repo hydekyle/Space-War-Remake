@@ -532,11 +532,12 @@ MonoBehaviour:
       attackSpeed: 0
       bulletSpeed: 0
       movility: 0
-  isGodMode: 0
+  isGodMode: 1
   health:
     value: 0
   energy:
     value: 0
+  bulletAmountForPool: 5
 --- !u!50 &4574713025455700731
 Rigidbody2D:
   serializedVersion: 4

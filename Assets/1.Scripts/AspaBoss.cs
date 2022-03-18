@@ -27,13 +27,17 @@ public class AspaBoss : Enemy
 
     async void PlayFirstAnimation()
     {
-        await UniTask.WaitUntil(() => aspa1.transform.localPosition == Vector3.zero);
-        await UniTask.WaitUntil(() => aspa2.transform.localPosition == Vector3.zero);
-        animator.Play("RedEyeOn");
-        var animTimeSeconds = (double)animator.GetCurrentAnimatorStateInfo(0).length;
-        await UniTask.Delay(System.TimeSpan.FromSeconds(animTimeSeconds));
-        weakPoint.enabled = true;
-        eyeGO.SetActive(true);
+        try
+        {
+            await UniTask.WaitUntil(() => aspa1.transform.localPosition == Vector3.zero);
+            await UniTask.WaitUntil(() => aspa2.transform.localPosition == Vector3.zero);
+            animator.Play("RedEyeOn");
+            var animTimeSeconds = (double)animator.GetCurrentAnimatorStateInfo(0).length;
+            await UniTask.Delay(System.TimeSpan.FromSeconds(animTimeSeconds));
+            weakPoint.enabled = true;
+            eyeGO.SetActive(true);
+        }
+        catch { }
     }
 
     void Update()

@@ -49,6 +49,7 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         if (Input.GetMouseButtonDown(1)) SpawnNextEnemy();
+        if (Input.GetKeyDown(KeyCode.F1) && Application.isEditor) player.isGodMode = !player.isGodMode;
     }
 
     void SpawnNextEnemy()

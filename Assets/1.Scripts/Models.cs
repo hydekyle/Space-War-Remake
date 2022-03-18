@@ -26,6 +26,12 @@ public struct Stats
     public int health, bulletDamage, attackSpeed, bulletSpeed, movility;
 }
 
+public struct Bullet
+{
+    public GameObject myGO;
+    public Rigidbody2D myRB;
+}
+
 public class Enemy : MonoBehaviour
 {
     [Range(1, 10)]

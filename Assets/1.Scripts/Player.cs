@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using EZObjectPools;
+//using EZObjectPools;
 using Cysharp.Threading.Tasks;
 
 public class Player : MonoBehaviour
@@ -13,7 +13,7 @@ public class Player : MonoBehaviour
     public bool isGodMode = false;
     bool isActive = false;
     float timeLastShoot = -2f;
-    EZObjectPool bulletPool;
+    //EZObjectPool bulletPool;
     bool touchingLaserEnemy = false;
     Camera cam;
     Rigidbody2D rb;
@@ -22,6 +22,7 @@ public class Player : MonoBehaviour
     public EnergyObs energy = new EnergyObs();
     int level = 1;
     int coins = 0;
+    public int bulletAmountForPool;
 
     void Awake()
     {
@@ -67,7 +68,8 @@ public class Player : MonoBehaviour
         transform.position = Vector2.zero;
         isActive = true;
         this.ship = ship;
-        bulletPool = EZObjectPool.CreateObjectPool(ship.bullet, "player bullets", 150, true, true, true);
+        MyBulletPool.Instance.CreateBulletPool(ship.bullet, bulletAmountForPool);
+        //bulletPool = EZObjectPool.CreateObjectPool(ship.bullet, "player bullets", 150, true, true, true);
         limitPos = GameManager.boundaries;
         boxColliderAttractor.size = Helpers.SizeAttractorClosed();
         transform.Find("CoinAttractor").SetParent(Camera.main.transform);
@@ -85,8 +87,7 @@ public class Player : MonoBehaviour
 
     void Move(Vector2 direction)
     {
-        rb.AddForce(direction.normalized * (ship.stats.movility * 0.25f), ForceMode2D.Impulse);
-        //rb.position += direction * ship.stats.movility * Time.deltaTime;
+        rb.AddForce(direction * (ship.stats.movility * 0.1f), ForceMode2D.Impulse);
         rb.position = new Vector2(Mathf.Clamp(rb.position.x, -limitPos.x, limitPos.x), Mathf.Clamp(rb.position.y, -limitPos.y, limitPos.y));
         skyMaterial.SetTextureOffset("_FrontTex", rb.position / 100);
     }
@@ -95,9 +96,9 @@ public class Player : MonoBehaviour
     {
         if (!IsShootAvailable()) return;
         timeLastShoot = Time.time;
-        if (bulletPool.TryGetNextObject(NextShootPosition(), transform.rotation, out GameObject go))
+        var bulletVelocity = transform.right * ship.stats.bulletSpeed * 5;
+        if (MyBulletPool.Instance.TryGetNextBullet(NextShootPosition(), transform.rotation, bulletVelocity, out Bullet? bullet))
         {
-            go.GetComponent<Rigidbody2D>().velocity = transform.right * ship.stats.bulletSpeed * 5;
             Helpers.PlaySFX(Helpers.tables.shot1, 0.1f);
         }
     }
